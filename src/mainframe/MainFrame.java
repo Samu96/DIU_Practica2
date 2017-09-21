@@ -23,7 +23,7 @@ public class MainFrame extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         generateMatrix(jFormattedTextField1,jFormattedTextField3,jFormattedTextField2);
         jSlider1.setMaximum(Integer.parseInt(jFormattedTextField2.getText()));
-        jSlider1.setMinimum(Integer.parseInt(jFormattedTextField3.getText()));
+        jSlider1.setMinimum(Integer.parseInt(jFormattedTextField3.getText())-1);
         jSlider1.setMajorTickSpacing(1);
     }
     
@@ -66,6 +66,16 @@ public class MainFrame extends javax.swing.JFrame {
         jSlider1.setPaintTicks(true);
         jSlider1.setSnapToTicks(true);
         jSlider1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jSlider1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jSlider1MouseClicked(evt);
+            }
+        });
+        jSlider1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jSlider1FocusLost(evt);
+            }
+        });
 
         jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         jFormattedTextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -219,6 +229,14 @@ public class MainFrame extends javax.swing.JFrame {
     private void jFormattedTextField1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFormattedTextField1FocusLost
         generateMatrix(jFormattedTextField1,jFormattedTextField3,jFormattedTextField2);
     }//GEN-LAST:event_jFormattedTextField1FocusLost
+/*
+    private void jSlider1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jSlider1FocusLost
+        
+    }//GEN-LAST:event_jSlider1FocusLost
+*/
+    private void jSlider1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jSlider1MouseClicked
+        printMatrix(A);
+    }//GEN-LAST:event_jSlider1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -272,11 +290,14 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 
+    private int[][] A;
+    
+    
     private void generateMatrix(JFormattedTextField length, JFormattedTextField minValue, JFormattedTextField maxValue) {
         int min= Integer.parseInt(minValue.getText());
         int max= Integer.parseInt(maxValue.getText());
         int n = Integer.parseInt(length.getText());
-        int[][] A = new int[n][n];
+        A = new int[n][n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 A[i][j]=(int)(Math.random() * (max - min +1) + min);
@@ -288,10 +309,14 @@ public class MainFrame extends javax.swing.JFrame {
     
     private void printMatrix(int[][] A){
         jTextArea1.setText("");
+        int value = jSlider1.getValue();
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A.length; j++) {
-                jTextArea1.append(String.valueOf(A[i][j])+ "\t");
-                
+                if(A[i][j]>value){
+                    jTextArea1.append(String.valueOf(A[i][j])+ "\t");
+                }else {
+                    jTextArea1.append("- \t");
+                }
             }
             
             jTextArea1.append("\n");
