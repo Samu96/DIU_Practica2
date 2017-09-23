@@ -25,8 +25,8 @@ public class MainFrame extends javax.swing.JFrame {
         max=Integer.parseInt(jFormattedTextField2.getText());
         size=Integer.parseInt(jFormattedTextField1.getText());
         generateMatrix(size,min,max);
-        jSlider1.setMaximum(Integer.parseInt(jFormattedTextField2.getText()));
-        jSlider1.setMinimum(Integer.parseInt(jFormattedTextField3.getText()));
+        jSlider1.setMaximum(max);
+        jSlider1.setMinimum(min);
         jSlider1.setMajorTickSpacing(1);
         jSlider1.setMinorTickSpacing(1);
         
