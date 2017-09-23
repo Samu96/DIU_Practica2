@@ -21,10 +21,15 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         this.setLocationRelativeTo(null);
-        generateMatrix(jFormattedTextField1,jFormattedTextField3,jFormattedTextField2);
+        min=Integer.parseInt(jFormattedTextField3.getText());
+        max=Integer.parseInt(jFormattedTextField2.getText());
+        size=Integer.parseInt(jFormattedTextField1.getText());
+        generateMatrix(size,min,max);
         jSlider1.setMaximum(Integer.parseInt(jFormattedTextField2.getText()));
-        jSlider1.setMinimum(Integer.parseInt(jFormattedTextField3.getText())-1);
+        jSlider1.setMinimum(Integer.parseInt(jFormattedTextField3.getText()));
         jSlider1.setMajorTickSpacing(1);
+        jSlider1.setMinorTickSpacing(1);
+        
     }
     
     
@@ -54,7 +59,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel3.setText("Dimensión Matriz Cuadrada:");
 
@@ -62,18 +67,17 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel5.setText("Valor Máximo Matriz:");
 
+        jSlider1.setMinorTickSpacing(1);
         jSlider1.setPaintLabels(true);
         jSlider1.setPaintTicks(true);
         jSlider1.setSnapToTicks(true);
+        jSlider1.setToolTipText("");
+        jSlider1.setValue(0);
         jSlider1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jSlider1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jSlider1MouseClicked(evt);
-            }
-        });
-        jSlider1.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jSlider1FocusLost(evt);
+        jSlider1.setValueIsAdjusting(true);
+        jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSlider1StateChanged(evt);
             }
         });
 
@@ -120,7 +124,7 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addComponent(jLabel3)
                                 .addGap(18, 18, 18)
                                 .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
                                 .addComponent(jLabel5))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
@@ -159,8 +163,9 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
@@ -178,7 +183,7 @@ public class MainFrame extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -209,34 +214,50 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void jFormattedTextField3FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFormattedTextField3FocusLost
-        generateMatrix(jFormattedTextField1,jFormattedTextField3,jFormattedTextField2);
+        int tmp =Integer.parseInt(jFormattedTextField3.getText());
+        if(min!=tmp){
+            min=tmp;
+            jSlider1.setMinimum(min);            
+            jSlider1.setLabelTable(null);
+            jSlider1.setMajorTickSpacing((int) Math.ceil((max-min)/10.));
+            
+            generateMatrix(size ,min,max);
+        }
     }//GEN-LAST:event_jFormattedTextField3FocusLost
 
     private void jFormattedTextField2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFormattedTextField2FocusLost
-        generateMatrix(jFormattedTextField1,jFormattedTextField3,jFormattedTextField2);
+        int tmp=Integer.parseInt(jFormattedTextField2.getText());
+        if(max != tmp){
+            max=tmp;
+            jSlider1.setMaximum(max);
+            jSlider1.setLabelTable(null);
+            jSlider1.setMajorTickSpacing((int) Math.ceil((max-min)/10.));
+            generateMatrix(size ,min,max);
+        }
     }//GEN-LAST:event_jFormattedTextField2FocusLost
 
     private void jFormattedTextField1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFormattedTextField1FocusLost
-        generateMatrix(jFormattedTextField1,jFormattedTextField3,jFormattedTextField2);
+        int tmp=Integer.parseInt(jFormattedTextField1.getText());
+        if(size!=tmp){;
+            size=tmp;
+            generateMatrix(size ,min,max);
+        }
     }//GEN-LAST:event_jFormattedTextField1FocusLost
-/*
-    private void jSlider1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jSlider1FocusLost
-        
-    }//GEN-LAST:event_jSlider1FocusLost
-*/
-    private void jSlider1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jSlider1MouseClicked
+
+    private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
         printMatrix(A);
-    }//GEN-LAST:event_jSlider1MouseClicked
+    }//GEN-LAST:event_jSlider1StateChanged
 
     /**
      * @param args the command line arguments
@@ -291,12 +312,12 @@ public class MainFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private int[][] A;
+    private int min;
+    private int max;
+    private int size;
     
-    
-    private void generateMatrix(JFormattedTextField length, JFormattedTextField minValue, JFormattedTextField maxValue) {
-        int min= Integer.parseInt(minValue.getText());
-        int max= Integer.parseInt(maxValue.getText());
-        int n = Integer.parseInt(length.getText());
+    private void generateMatrix(int n, int min, int max) {
+        
         A = new int[n][n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
@@ -321,7 +342,7 @@ public class MainFrame extends javax.swing.JFrame {
             
             jTextArea1.append("\n");
         }
-        
-        
+       
     }
+    
 }
