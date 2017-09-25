@@ -20,6 +20,7 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
+        limit = -1;
         this.setLocationRelativeTo(null);
         min=Integer.parseInt(jFormattedTextField3.getText());
         max=Integer.parseInt(jFormattedTextField2.getText());
@@ -256,6 +257,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jFormattedTextField1FocusLost
 
     private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
+        limit = jSlider1.getValue();
         printMatrix(A);
     }//GEN-LAST:event_jSlider1StateChanged
 
@@ -315,6 +317,7 @@ public class MainFrame extends javax.swing.JFrame {
     private int min;
     private int max;
     private int size;
+    private int limit;
     
     private void generateMatrix(int n, int min, int max) {
         
@@ -330,10 +333,10 @@ public class MainFrame extends javax.swing.JFrame {
     
     private void printMatrix(int[][] A){
         jTextArea1.setText("");
-        int value = jSlider1.getValue();
+        
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A.length; j++) {
-                if(A[i][j]>value){
+                if(A[i][j]>limit){
                     jTextArea1.append(String.valueOf(A[i][j])+ "\t");
                 }else {
                     jTextArea1.append("- \t");
