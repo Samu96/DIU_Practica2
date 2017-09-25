@@ -324,7 +324,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jFormattedTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField1ActionPerformed
         int tmp=Integer.parseInt(jFormattedTextField1.getText());
-        if(size!=tmp){;
+        if(size!=tmp){
             size=tmp;
             generateMatrix(size ,min,max);
         }
