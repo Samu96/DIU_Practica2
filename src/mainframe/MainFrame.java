@@ -52,6 +52,7 @@ public class MainFrame extends javax.swing.JFrame {
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
         jFormattedTextField2 = new javax.swing.JFormattedTextField();
         jFormattedTextField3 = new javax.swing.JFormattedTextField();
+        jFormattedTextField5 = new javax.swing.JFormattedTextField();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -88,6 +89,11 @@ public class MainFrame extends javax.swing.JFrame {
                 jFormattedTextField1FocusLost(evt);
             }
         });
+        jFormattedTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFormattedTextField1ActionPerformed(evt);
+            }
+        });
 
         jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         jFormattedTextField2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -98,6 +104,11 @@ public class MainFrame extends javax.swing.JFrame {
                 jFormattedTextField2FocusLost(evt);
             }
         });
+        jFormattedTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFormattedTextField2ActionPerformed(evt);
+            }
+        });
 
         jFormattedTextField3.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         jFormattedTextField3.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -106,6 +117,26 @@ public class MainFrame extends javax.swing.JFrame {
         jFormattedTextField3.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jFormattedTextField3FocusLost(evt);
+            }
+        });
+        jFormattedTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFormattedTextField3ActionPerformed(evt);
+            }
+        });
+
+        jFormattedTextField5.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        jFormattedTextField5.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jFormattedTextField5.setText("0");
+        jFormattedTextField5.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jFormattedTextField5.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jFormattedTextField5FocusLost(evt);
+            }
+        });
+        jFormattedTextField5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFormattedTextField5ActionPerformed(evt);
             }
         });
 
@@ -136,6 +167,8 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jSlider1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jFormattedTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -157,7 +190,9 @@ public class MainFrame extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(30, 30, 30)
-                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jFormattedTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -253,8 +288,52 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
         limit = jSlider1.getValue();
+        jFormattedTextField5.setText(String.valueOf(limit));
         printMatrix(A);
     }//GEN-LAST:event_jSlider1StateChanged
+
+    private void jFormattedTextField5FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFormattedTextField5FocusLost
+        limit = Integer.parseInt(jFormattedTextField5.getText());
+        jSlider1.setValue(limit);
+        printMatrix(A);
+    }//GEN-LAST:event_jFormattedTextField5FocusLost
+
+    private void jFormattedTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField3ActionPerformed
+        int tmp =Integer.parseInt(jFormattedTextField3.getText());
+        if(min!=tmp){
+            min=tmp;
+            jSlider1.setMinimum(min-1);            
+            jSlider1.setLabelTable(null);
+            jSlider1.setMajorTickSpacing((int) Math.ceil((max-min)/10.));
+            
+            generateMatrix(size ,min,max);
+        }
+    }//GEN-LAST:event_jFormattedTextField3ActionPerformed
+
+    private void jFormattedTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField2ActionPerformed
+        int tmp=Integer.parseInt(jFormattedTextField2.getText());
+        if(max != tmp){
+            max=tmp;
+            jSlider1.setMaximum(max);
+            jSlider1.setLabelTable(null);
+            jSlider1.setMajorTickSpacing((int) Math.ceil((max-min)/10.));
+            generateMatrix(size ,min,max);
+        }
+    }//GEN-LAST:event_jFormattedTextField2ActionPerformed
+
+    private void jFormattedTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField1ActionPerformed
+        int tmp=Integer.parseInt(jFormattedTextField1.getText());
+        if(size!=tmp){;
+            size=tmp;
+            generateMatrix(size ,min,max);
+        }
+    }//GEN-LAST:event_jFormattedTextField1ActionPerformed
+
+    private void jFormattedTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField5ActionPerformed
+        limit = Integer.parseInt(jFormattedTextField5.getText());
+        jSlider1.setValue(limit);
+        printMatrix(A);
+    }//GEN-LAST:event_jFormattedTextField5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -296,6 +375,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JFormattedTextField jFormattedTextField3;
+    private javax.swing.JFormattedTextField jFormattedTextField5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
