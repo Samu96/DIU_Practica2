@@ -5,26 +5,18 @@
  */
 package mainframe;
 
-import java.util.Arrays;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 
-/**
- *
- * @author usuario
- */
 public class MainFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainFrame
-     */
     public MainFrame() {
         initComponents();
         limit = 0;
         this.setLocationRelativeTo(null);
         min=Integer.parseInt(jFormattedTextField3.getText());
         max=Integer.parseInt(jFormattedTextField2.getText());
-        size=Integer.parseInt(jFormattedTextField1.getText());
+        size=Math.abs(Integer.parseInt(jFormattedTextField1.getText()));
         generateMatrix(size,min,max);
         jSlider1.setMaximum(max);
         jSlider1.setMinimum(min-1);
@@ -280,9 +272,10 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jFormattedTextField2FocusLost
 
     private void jFormattedTextField1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFormattedTextField1FocusLost
-        int tmp=Integer.parseInt(jFormattedTextField1.getText());
+        int tmp=Math.abs(Integer.parseInt(jFormattedTextField1.getText()));
         if(size!=tmp){;
             size=tmp;
+            jFormattedTextField1.setText(String.valueOf(tmp));
             generateMatrix(size ,min,max);
         }
     }//GEN-LAST:event_jFormattedTextField1FocusLost
@@ -323,9 +316,10 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jFormattedTextField2ActionPerformed
 
     private void jFormattedTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField1ActionPerformed
-        int tmp=Integer.parseInt(jFormattedTextField1.getText());
+        int tmp=Math.abs(Integer.parseInt(jFormattedTextField1.getText()));
         if(size!=tmp){
             size=tmp;
+            jFormattedTextField1.setText(String.valueOf(tmp));
             generateMatrix(size ,min,max);
         }
     }//GEN-LAST:event_jFormattedTextField1ActionPerformed
